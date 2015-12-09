@@ -31,11 +31,9 @@ class WordCounter(Bolt):
         self.log('%s: %d' % (word, self.counts[word]))
         conn = psycopg2.connect(database="tcount", user="postgres", host="localhost", port="5432")
 	cur = conn.cursor()
-	if self.counts[word]>=1:
+	if self.counts[word]>1:
 		cur.execute("UPDATE Tweetwordcount SET count=%s WHERE word=%s", (self.counts[word],word))
         else:
-		#cur.execute("INSERT INTO Tweetwordcount (word,count) VALUES (%s, %s)",(word,self.counts[word]))
 		cur.execute("INSERT INTO Tweetwordcount (word,count) SELECT %s, %s WHERE NOT EXISTS (SELECT word FROM Tweetwordcount WHERE word=%s)",(word,self.counts[word],word))
-        #cur.execute("UPDATE Tweetwordcount SET count=%s WHERE word=%s", (self.counts[word],word))
-	conn.commit()
+        conn.commit()
 	conn.close()
