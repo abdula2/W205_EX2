@@ -1,3 +1,5 @@
+Instructions
+
 1. Follow Lab 9 to insall Java 2.7 and Stream parse
 2. Install psycop2
 3. Do git clone https://github.com/abdula2/W205_EX2.git
